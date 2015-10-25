@@ -27,6 +27,9 @@ gem 'tumblr_client'
 gem 'react-rails'
 gem 'omniauth'
 gem 'omniauth-tumblr'
+gem 'actioncable'
+gem 'entangled'
+gem 'puma'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

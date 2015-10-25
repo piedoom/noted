@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  #resources :groups do
+  #  resources :messages
+  #end
+
+  sockets_for :groups do 
+	  sockets_for :messages
+  end
+
   get 'user/dashboard'
   
   resources :text_posts, only: ['create','new']
