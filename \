@@ -2,13 +2,14 @@
 <script>$(function(){
 	var Group = new Entangled('ws://localhost:3000/groups');
 	window.group_id = -1;
-	Group.hasMany('messages');
+	Group.hasMany(['messages', 'users']);
 	//Group.create({ name: 'message' });
 	
 	Group.all(function(err,groups){
 		$('.groups').html('');
 		for (i = 0; i < groups.length; i++){
 			$('.groups').append('<div class="group" data-group_id="' + groups[i]["id"] + '">' + groups[i]['name'] + '</div>');
+			console.log(groups[i]);
 		}
 	});
 
@@ -17,17 +18,8 @@
 		});
 	});
 
-	$('#group_add').click(function(){
-	Group.find(window.group_id, function(err, group) {
-		group.$update({add_user: $('#add_user').val()}, function(err,message){
-			//do stuff after update
-		});
-	});
-	});
-
 	$('body').on('click', '.group', function(){
 		window.group_id = $(this).data('group_id');
-		$('#add_user_id').val(window.group_id);
 		Group.find($(this).data('group_id'), function(err, group){
 			group.messages().all(function(err, message){
 			$('.messages').html('');
@@ -39,10 +31,9 @@
 	});
 
 	$('#message_create').click(function(){
-		if (window.group_id != -1){
+		if (window.group_id != 0){
 			Group.find(window.group_id, function(err, group){
 				group.messages().create({body: $('#message_body').val() }, function(err, message){
-					$('#message_body').val('');
 				});
 			});
 		}
@@ -54,7 +45,7 @@
 
 </script>
 
-<input id="group_name" required/>
+<input id="group_name" />
 <div id="group_create">create group</div>
 
 
@@ -63,8 +54,11 @@
 </div>
 
 adduser by name
-<%= text_field_tag :add_user %>
-<div id="group_add">add user to group</div>
+<%= form_for Group.new, url: group_add_user_path, remote: true do |f| %>
+	<%= f.text_field :id %>
+	<%= f.text_field :users %>
+	<%= f.submit %>
+<% end %>
 
 
 <div class="messages">
@@ -72,3 +66,5 @@ adduser by name
 
 <input id="message_body" />
 <div id="message_create">send message</div>
+
+

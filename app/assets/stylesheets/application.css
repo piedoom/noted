@@ -15,8 +15,17 @@
  */
 
 body{
-	background: black;
-	color: grey;
+	margin: 0;
+}
+
+.groups{
+	max-width: 300px;
+	text-align: center;
+}
+
+.group{
+	border-bottom: grey 1px solid;
+	padding: 1em 3em;
 }
 
 hr{

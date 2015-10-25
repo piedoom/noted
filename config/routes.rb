@@ -9,6 +9,9 @@ Rails.application.routes.draw do
 
   get 'user/dashboard'
   get 'user/messaging'
+
+  post 'group_add_user' => 'group#add_user'
+
   
   resources :text_posts, only: ['create','new']
   resources :photo_posts

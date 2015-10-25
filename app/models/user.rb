@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+
 	has_many :conversations
 	has_many :groups, :through => :conversations
 
