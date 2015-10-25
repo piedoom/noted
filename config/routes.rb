@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
   get 'user/dashboard'
-
+  
   resources :text_posts, only: ['create','new']
   resources :photo_posts
+
+  get '/auth/:provider/callback' => 'sessions#create'
+  get '/signout' => 'sessions#destroy', :as => :signout
+
   root 'user#dashboard'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

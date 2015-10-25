@@ -24,7 +24,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'tumblr_client'
-
+gem 'react-rails'
+gem 'omniauth'
+gem 'omniauth-tumblr'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

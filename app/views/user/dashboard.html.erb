@@ -1,6 +1,16 @@
 <h1>Posts#index</h1>
 <p>Find me in app/views/posts/index.html.erb</p>
 
+<%= link_to 'Sign In', '/auth/tumblr' %>
+
+
+<% if current_user %>
+	<%= link_to 'Sign Out', signout_path %>
+<% else %>
+	<%= link_to 'Sign in with Tumblr', '/auth/tumblr' %>
+<% end %>
+
+<% if current_user %>
 <h3>Create a Post</h3>
 <% #make sure to make this restful in the controllers later %>
 <%= form_for @text_post, url: {action: 'create', controller: 'text_posts'}, remote: true do |f| %>
@@ -36,13 +46,13 @@
 			<%= image_tag photo['alt_sizes'][0]['url'] %>
 		<% end %>
 	<% end %>
+	Notes: <%#= post['note_count'] %>
 	</div>
-		
-	</br></br><br><br><hr>
 <% end %>
 
 
-<%# @dashboard['posts'].each do |post| %>
-	<%#= post %>
+<% @dashboard['posts'].each do |post| %>
+	<%= post %>
 	<br><br>
-<%# end %>
+<% end %>
+<% end %>
