@@ -1,65 +1,46 @@
 class MessagesController < ApplicationController
+	include Entangled::Controller
+
+
   before_action :set_group
   before_action :set_message, only: [:show, :edit, :update, :destroy]
-  # GET /messages
-  # GET /messages.json
+
   def index
-    @messages = Message.all
+    broadcast do
+	    @messages = @group.messages
+    end
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
-@group = Group.find(params[:group_id])
-
-  end
-
-  # GET /messages/new
-  def new
-	  @message = @group.messages.new
-  end
-
-  # GET /messages/1/edit
-  def edit
+	  broadcast do
+		  @message
+	  end
   end
 
   # POST /messages
   # POST /messages.json
   def create
-	 @message =  @group.messages.new(message_params)
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to [@group, @message], notice: 'Message was successfully created.' }
-        format.json { render :show, status: :created, location: [@group, @message] }
-      else
-        format.html { render :new }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
+	  broadcast do
+	 	@message =  @group.messages.create(message_params)
+	  end
   end
 
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
   def update
-    respond_to do |format|
-      if @message.update(message_params)
-        format.html { redirect_to [@group, @message], notice: 'Message was successfully updated.' }
-        format.json { render :show, status: :ok, location: [@group, @message] }
-      else
-        format.html { render :edit }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
+	  broadcast do
+		  @message.update(message_params)
+	  end
   end
 
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    @message.destroy
-    respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+	  broadcast do
+	  	@message.destroy
+	  end
   end
 
   private

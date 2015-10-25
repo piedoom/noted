@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   get 'user/dashboard'
+  get 'user/messaging'
   
   resources :text_posts, only: ['create','new']
   resources :photo_posts

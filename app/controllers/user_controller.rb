@@ -8,4 +8,6 @@ class UserController < ApplicationController
 		@text_post = TextPost.new
  	 end
   end
+  def messaging
+  end
 end
