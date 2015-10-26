@@ -1,3 +1,62 @@
+<script>
+$(function(){
+	//get messages in a conversation
+	$('body').on('click','.user_group', function(){
+		//set group_id globally since it is used for messaging
+		window.group_id = $(this).data("group_id")
+		//begin polling messages basaed on our group_id
+		messages_poll();
+		setInterval(messages_poll, 2000);
+	});
+
+	function messages_poll(){
+		window.last_get = $('.message:last-child').data("created_at")
+		get_messages();
+	}
+
+	function get_messages(){
+		$.ajax({
+			type: "GET",
+			contentType: "application/json",
+			//get only the latest messages
+			url: '/groups/' + window.group_id + '/messages/?last=' + window.last_get,
+			success: function(result){
+				message_index(result);
+			}
+		});
+	}
+
+	//construct a message chat from json
+	function message_index(json){
+		target = $('#user_group_messages');
+		for (m = 0; m < json.length; m++){
+			target.append(message_constructor(json[m]));
+		}
+	}
+
+	//generate html for the messages
+	function message_constructor(json){
+	messages_poll();
+	//set the timestamp so we only poll things we haven't seen yet
+		return "<div class='message' data-created_at=" + json['created_at'] + ">" + json['body'] + "</div>";
+	}
+
+	//send a message
+	$('#message_create').click(function(){
+		$.ajax({
+			type: "POST",
+			contentType: "application/json",
+			url: '/groups/' + window.group_id + '/messages/',
+			data: JSON.stringify({body: $('#message_body').val()}),
+			success: function(result){
+			}
+		});
+	});
+
+
+});
+</script>
+
 <div>
 
 <div id="toolbar">
@@ -29,7 +88,3 @@ adduser by name
 <input id="message_body" />
 <div id="message_create">send message</div>
 </div>
-
-
-
-<%= subscribe_to "/groups#{current_user}/new" %>

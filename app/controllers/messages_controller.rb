@@ -1,9 +1,15 @@
 class MessagesController < ApplicationController
   before_action :set_group
   before_action :set_message, only: [:show, :edit, :update, :destroy]
-
+  include ActionView::Helpers::TextHelper
   def index
-	    @messages = @group.messages
+	    if current_user.groups.include? @group
+		    if params[:last] != "undefined"
+			    @messages = @group.messages.where("created_at > ?", params[:last].to_datetime)[1..-1]
+		    else
+			@messages = @group.messages
+		    end
+	    end
   end
 
   # GET /messages/1
@@ -15,7 +21,10 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-	 	@message =  @group.messages.create(message_params)
+	 	@message =  @group.messages.new(message_params)
+		@message.body = strip_tags(@message.body)
+		@message.save
+		redirect_to root_path
   end
 
   # PATCH/PUT /messages/1
