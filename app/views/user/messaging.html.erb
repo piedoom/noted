@@ -1,28 +1,35 @@
 <div>
 
-<div id='messages_groups' >
-<% @groups.each do |group| %>
-	<%= group.name %>
-<% end %>
+<div id="toolbar">
+	<%= form_for Group.new, remote: true do |f| %>
+		<%= f.text_field :name %>
+		<%= f.submit %>
+	<% end %>
 </div>
 
-<%= form_for Group.new, remote: true do |f| %>
-	<%= f.text_field :name %>
-	<%= f.submit %>
-<% end %>
-
-
+<div id='user_groups' >
+	<% @groups.each do |group| %>
+		<% #this will only show groups users are allowed to see %>
+		<%= "<div class='user_group' data-group_id='#{group.id}'>".html_safe %>
+			<%= group.name %>
+		</div>
+	<% end %>
 </div>
-<div class="groups">
-</div>
 
+
+<div id='panel'>
 adduser by name
 <%= text_field_tag :add_user %>
 <div id="group_add">add user to group</div>
 
 
-<div class="messages">
+<div id="user_group_messages">
 </div>
 
 <input id="message_body" />
 <div id="message_create">send message</div>
+</div>
+
+
+
+<%= subscribe_to "/groups#{current_user}/new" %>

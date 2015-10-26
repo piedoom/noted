@@ -27,6 +27,8 @@ gem 'tumblr_client'
 gem 'omniauth'
 gem 'omniauth-tumblr'
 gem 'puma'
+gem 'private_pub'
+gem 'thin'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

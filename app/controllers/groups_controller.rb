@@ -19,6 +19,7 @@ class GroupsController < ApplicationController
     		@group = Group.new(group_params)
 		@group.users << current_user unless @group.users.find_by(id: current_user.id)
 		@group.save
+		PrivatePub.publish_to("/groups/new", "alert('#{@group.name}')")
 		redirect_to root_path
   end
   # PATCH/PUT /groups/1

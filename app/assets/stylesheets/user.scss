@@ -1,3 +1,30 @@
 // Place all the styles related to the User controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+//fun messages stuff
+#user_groups{
+	width: 300px;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+}
+
+.user_group{
+	border-bottom: lightgrey 1px solid;
+	padding: 2em 2em;
+	cursor: pointer;
+}
+
+.user_group:hover{
+	background: #F7F7F7;
+}
+
+#panel{
+	position: absolute;
+	left: 300px;
+	right: 0;
+	top:40px;
+	bottom: 0;
+}
