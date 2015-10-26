@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   #  resources :messages
   #end
 
-  sockets_for :groups do 
-	  sockets_for :messages
+  resources :groups do 
+	  resources :messages
   end
 
   get 'user/dashboard'

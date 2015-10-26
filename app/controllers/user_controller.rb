@@ -10,6 +10,7 @@ class UserController < ApplicationController
  	 end
   end
   def messaging
+	  @groups = current_user.groups
   end
 
 
